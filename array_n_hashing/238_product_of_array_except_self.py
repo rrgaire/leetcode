@@ -35,54 +35,32 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-
-
+        # time: O(n) | space: O(n)
         # soln = []
+        # pre = [1 for _ in range(len(nums))]
+        # post = [1 for _ in range(len(nums))]
 
-        # for i in range(len(nums)):
-        #     prod = 1
-        #     for j in range(len(nums)):
-        #         if i != j:
-        #             prod *= nums[j]
-        #     soln.append(prod)
+        # for i in range(1, len(nums)):
+        #     pre[i] = pre[i-1] * nums[i-1]
         
+        # for i in range(len(nums)-2, -1, -1):
+        #     post[i] = post[i+1] * nums[i+1]
+
+        # for i in range(0, len(nums)):
+        #     soln.append(pre[i] * post[i])
+
         # return soln
 
-        # soln = []
-        # pre_prod = 1
+        # time: O(n) | space: O(1)
+        post = 1
+        soln = [1 for _ in range(len(nums))]
 
-        # for i in range(len(nums)):
-        #     pre_prod *= nums[i]
-        #     soln.append(pre_prod)
-        # post_prod = nums[len(nums) - 1]
-
-        # soln[len(nums) - 1] = soln[len(nums) - 2]
-        
-        # for i in range(len(nums) - 2, 0, -1):            
-        #     soln[i] = soln[i-1] * post_prod
-        #     post_prod *= nums[i]
-        # soln[0] = post_prod
-        
-        # return soln
-
-
-        soln = [1] * len(nums)
-
-        prefix = 1
-
-        for i in range(len(nums)):
-            soln[i] = prefix
-            prefix *= nums[i]
-
-        postfix = 1
-
-        print(soln)
+        for i in range(1, len(nums)):
+            soln[i] = soln[i-1] * nums[i-1]
 
         for i in range(len(nums)-1, -1, -1):
-            soln[i] *= postfix
-            postfix *= nums[i]
+            soln[i] *= post
+            post *= nums[i]
+        return soln
 
-        return soln 
-
-        
         
