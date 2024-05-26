@@ -20,54 +20,61 @@ class Solution(object):
         :type board: List[List[str]]
         :rtype: bool
         """
-        
-        
-        # for i in range(9):
-        #     hash = set()
-        #     for j in range(9):
-        #         if board[i][j] != '.':
-        #             if board[i][j] in hash:
-        #                 return False
+        # time: O(n^2) | space: O(n^2)
+        # hashdict = {}
+        # nrows = len(board)
+        # ncols = len(board[0])
+
+        # for row in range(nrows):
+        #     hashset = set()
+        #     for col in range(ncols):
+        #         num = board[row][col]
+        #         if num != '.':
+        #             if num not in hashset:
+        #                 hashset.add(num)
         #             else:
-        #                 hash.update(board[i][j])
-
-        
-        # for i in range(9):
-        #     hash = set()
-        #     for j in range(9):
-        #         if board[j][i] != '.':
-        #             if board[j][i] in hash:
         #                 return False
+        
+        # for col in range(ncols):
+        #     hashset = set()
+        #     for row in range(nrows):
+        #         num = board[row][col]
+        #         if num != '.':
+        #             if num not in hashset:
+        #                 hashset.add(num)
         #             else:
-        #                 hash.update(board[j][i])
+        #                 return False
 
 
-        # for k in range(0, 9, 3):
-        #     for l in range(0, 9, 3):
-        #         hash = set()
-        #         for i in range(k, k + 3):
-        #             for j in range(l, l + 3):
-        #                 if board[i][j] != '.':
-        #                     if board[i][j] in hash:
-        #                         return False
+        # for row in range(0, nrows, 3):
+        #     for col in range(0, ncols, 3):
+        #         hashset = set()
+        #         for i in range(row, row+3):
+        #             for k in range(col, col+3):
+        #                 print(row+i, col+k)
+        #                 num = board[i][k]
+        #                 if num != '.':
+        #                     if num not in hashset:
+        #                         hashset.add(num)
         #                     else:
-        #                         hash.update(board[i][j])
-
+        #                         return False
         # return True
 
 
+        # time: O(n^2) | space: O(n^2)
+
         rows = collections.defaultdict(set)
         cols = collections.defaultdict(set)
-        sqrs = collections.defaultdict(set)
+        squares = collections.defaultdict(set)
 
-        for i in range(9):
-            for j in range(9):
-                if board[i][j] != '.':
-                    if (board[i][j] in rows[i]) or (board[i][j] in cols[j]) or (board[i][j] in sqrs[(i//3, j//3)]):
+        for row in range(len(board)):
+            for col in range(len(board[0])):
+                num = board[row][col]
+
+                if num != '.':
+                    if num in rows[row] or num in cols[col] or num in squares[(row//3, col//3)]:
                         return False
-                    else:
-                        rows[i].add(board[i][j]) 
-                        cols[j].add(board[i][j])
-                        sqrs[(i//3, j//3)].add(board[i][j])
-
+                    rows[row].add(num)
+                    cols[col].add(num)
+                    squares[(row//3, col//3)].add(num)
         return True
