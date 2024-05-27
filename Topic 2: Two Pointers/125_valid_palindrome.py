@@ -1,5 +1,6 @@
 """
 125. Valid Palindrome
+Easy
 
 A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
@@ -39,28 +40,32 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-        def isalnum(c):
-            return (ord('A') <= ord(c) <= ord('Z')) or (ord('a') <= ord(c) <= ord('z')) or (ord('0') <= ord(c) <= ord('9'))
+        # # time: O(n) | space: O(n)
+        # s = s.lower()
+        # f_s = ''
+        # b_s = ''
+
+        # for i in range(len(s)):
+        #     if s[i].isalnum():
+        #         f_s += s[i]
         
-        i, j = 0, len(s) - 1
+        # for i in range(len(s)-1, -1, -1):
+        #     if s[i].isalnum():
+        #         b_s += s[i]
+        
+        # return f_s == b_s
 
-        while i < j:
-            while i < j and not isalnum(s[i]):
-                i += 1
-            while j > i and not isalnum(s[j]):
-                j -= 1
-            if s[i].lower() != s[j].lower():
+        # time: O(n) | space: O(n)
+        left = 0
+        right = len(s) - 1
+
+        while left < right:
+            while not s[left].isalnum() and left < right:
+                left += 1
+            while not s[right].isalnum() and left < right:
+                right -= 1
+            if s[left].lower() != s[right].lower():
                 return False
-            i += 1
-            j -= 1
+            left += 1
+            right -= 1
         return True
-
-        # new_s = ''
-        # for c in s:
-        #     if c.isalnum():
-        #         new_s += c.lower()
-
-        # return new_s == new_s[::-1]
-
-        # s = [c.lower() for c in s if c.isalnum()]
-        # return all (s[i] == s[~i] for i in range(len(s)//2))
