@@ -27,30 +27,15 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        # time: O(n) | space: O(n)
+        maxlen = 0
+        hashset = set(nums)
 
-        # hash_nums = dict()
-
-        # for num in nums:
-        #     if num not in hash_nums:
-        #         hash_nums[num] = 0
-        # max = 0
-        # for key in hash_nums:
-        #     if key-1 not in hash_nums:
-        #         count = 1
-        #         while (key+1) in hash_nums:
-        #             count += 1
-        #             key += 1
-        #         if count > max:
-        #             max = count
-        # return max
-
-        hash_nums = set(nums)
-        longest = 0
-        for num in hash_nums:
-            if num-1 not in hash_nums:
+        for num in hashset:
+            if num-1 not in hashset:
                 count = 1
-                while (num+count) in hash_nums:
+                while num+count in hashset:
                     count += 1
-                longest = max(count, longest)
-
-        return longest
+                if count > maxlen:
+                    maxlen = count
+        return maxlen
