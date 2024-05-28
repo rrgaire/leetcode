@@ -45,6 +45,8 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
+
+        # # time: O(n) | space: O(n)
         # nums_dict = dict()
         # for i, num in enumerate(numbers):
         #     if (target - num) in nums_dict:
@@ -52,13 +54,15 @@ class Solution(object):
         #     else:
         #         nums_dict[num] = i
 
-        i, j = 0, len(numbers) - 1
+        # time: O(n) | space: O(1)
+        l, r = 0, len(numbers) - 1
 
-        while i < j:
-            while numbers[i] + numbers[j] > target:
-                j -= 1
-            while numbers[i] + numbers[j] < target:
-                i += 1
-            if numbers[i] + numbers[j] == target:
-                return [i+1, j+1]
+        while l < r:
+            sum = numbers[l] + numbers[r]
+            if sum > target:
+                r -= 1
+            if sum < target:
+                l += 1
+            if sum == target:
+                return [l+1, r+1]
                 
