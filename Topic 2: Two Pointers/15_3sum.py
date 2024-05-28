@@ -1,7 +1,7 @@
 """
 15. 3Sum
 
-Hint
+Medium
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
 Notice that the solution set must not contain duplicate triplets.
@@ -43,6 +43,8 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
+
+        # time: O(n^2) | space: O(1)
         soln = []
         sorted_nums = sorted(nums)
 
