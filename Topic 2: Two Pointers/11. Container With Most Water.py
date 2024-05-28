@@ -3,7 +3,6 @@
 
 Medium
 
-Hint
 You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
 
 Find two lines that together with the x-axis form a container, such that the container contains the most water.
@@ -40,7 +39,7 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        
+        # # time: O(n^2) | space: O(1)
         # max = 0
         # for i in range(len(height)):
         #     for j in range(i+1, len(height)):
@@ -49,16 +48,18 @@ class Solution(object):
         #             max = area
         # return max
 
-        res = 0
+        # time: O(n) | space: O(1)
         l, r = 0, len(height) - 1
+        max_area = 0
 
         while l < r:
-
             area = (r - l) * min(height[l], height[r])
-            res = max(res, area)
+
+            max_area = max(area, max_area)
 
             if height[l] < height[r]:
                 l += 1
             else:
                 r -= 1
-        return res
+        return max_area
+            
