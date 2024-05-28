@@ -3,7 +3,6 @@
 
 Easy
 
-Hint
 Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
 An input string is valid if:
@@ -40,21 +39,22 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-
+        # time: O(n) | space: O(1)
         stack = []
-        closetoopen = {')': '(', '}': '{', ']': '['}
+        brackets = {
+            ')': '(',
+            '}': '{',
+            ']': '['
+        }
 
-        for item in s:
-            if item in closetoopen:
-                if stack and stack[-1] == closetoopen[item]:
-                    stack.pop()
+        for char in s:
+            if char in brackets:
+                if stack and stack[-1] == brackets[char]:
+                    stack.pop(-1)
                 else:
                     return False
             else:
-                stack.append(item)
-
-        if not stack:
-            return True
-        else:
-            return False
-             
+                stack.append(char)
+        
+        return len(stack) == 0
+            
