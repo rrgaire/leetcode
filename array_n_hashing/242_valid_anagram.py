@@ -30,24 +30,41 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        anagram = False
-        dict_t = dict()
 
-        for b in t:
-            if b in dict_t:
-                dict_t[b] += 1
-            else:
-                dict_t[b] = 1
-
-        for a in s:
-            if a in dict_t:
-                dict_t[a] -= 1
-            else:
-                return False
-
-
-        for key in dict_t:
-            if dict_t[key] != 0:
-                return False
+        # time: O(n) | space: O(n)
         
-        return True
+        # dict_t = dict()
+
+        # for b in t:
+        #     if b in dict_t:
+        #         dict_t[b] += 1
+        #     else:
+        #         dict_t[b] = 1
+
+        # for a in s:
+        #     if a in dict_t:
+        #         dict_t[a] -= 1
+        #     else:
+        #         return False
+
+
+        # for key in dict_t:
+        #     if dict_t[key] != 0:
+        #         return False
+        
+        # return True
+
+        # time: O(n) | space: O(n)
+
+
+        hashdict_S = {}
+        hashdict_T = {}
+
+        if len(s) != len(t):
+            return False
+
+        for i in range(len(s)):
+            hashdict_S[s[i]] = 1 + hashdict_S.get(s[i], 0)
+            hashdict_T[t[i]] = 1 + hashdict_T.get(t[i], 0)
+        
+        return hashdict_S == hashdict_T
