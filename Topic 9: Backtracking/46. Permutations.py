@@ -51,3 +51,26 @@ class Solution:
         
         return res
         
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        
+        res = []
+        perm = []
+        used = [0 for _ in range(len(nums))]
+
+        def backtrack():
+            if len(perm) == len(nums):
+                res.append(perm[:])
+                return
+            
+            for i in range(len(nums)):
+                if not used[i]:
+                    perm.append(nums[i])
+                    used[i] = 1
+                    backtrack()
+                    perm.pop()
+                    used[i] = 0
+        
+        backtrack()
+        return res
