@@ -34,16 +34,33 @@ class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
 
         # time: O(n.2^n) | space: O(n)
-        res = []
-        subset = []
-        def dfs(i):
-            if i >= len(nums):
-                res.append(subset.copy())
-                return
-            subset.append(nums[i])
-            dfs(i+1)
-            subset.pop()
-            dfs(i+1)
-        dfs(0)
-        return res
+        
+        # res = []
+        # subset = []
+        # def dfs(i):
+        #     if i == len(nums):
+        #         res.append(subset[:])
+        #         return
+            
+        #     subset.append(nums[i])
+        #     dfs(i+1)
+        #     subset.pop()
+        #     dfs(i+1)
+        
+        # dfs(0)
+        # return res
 
+        res = []
+        comb = []
+
+        def backtrack(j):
+            res.append(comb[:])
+                
+            for i in range(j, len(nums)):
+                comb.append(nums[i])
+                print(comb)
+                backtrack(i+1)
+                comb.pop()
+        
+        backtrack(0)
+        return res
