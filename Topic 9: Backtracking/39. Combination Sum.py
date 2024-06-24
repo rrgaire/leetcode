@@ -45,23 +45,39 @@ All elements of candidates are distinct.
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
 
-        # time: O(2^t) | space: O()
+        # res = []
+        # comb = []
+
+        # def dfs(i, total):
+        #     if total == target:
+        #         res.append(comb[:])
+        #         return
+        #     if total > target or i == len(candidates):
+        #         return
+            
+        #     comb.append(candidates[i])
+        #     dfs(i, total+candidates[i])
+        #     comb.pop()
+        #     dfs(i+1, total)
+
+        # dfs(0, 0)
+        # return res
+
         res = []
-        
-        def dfs(i, comb, total):
+        comb = []
+
+        def backtrack(j, total):
+            if total == target:
+                res.append(comb[:])
+                return
             if total > target:
                 return
-            if total == target:
-                res.append(comb.copy())
-                return
-            if i >= len(candidates):
-                return
-            
-            comb.append(candidates[i])
-            dfs(i, comb, total + candidates[i])
-            comb.pop()
-            dfs(i+1, comb, total)
+
+            for i in range(j, len(candidates)):
+                comb.append(candidates[i])
+                backtrack(i+1, total+candidates[i])
+                comb.pop()
         
-        dfs(0, [], 0)
+        backtrack(0, 0)
         return res
         
