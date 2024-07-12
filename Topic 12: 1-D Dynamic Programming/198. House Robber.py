@@ -31,42 +31,62 @@ Constraints:
 
 
 """
-
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        # Soln 1: time: O(n) | space: O(n)
 
-        # def helper(i):
-        #     if i < 0:
-        #         return 0
-        #     if i in dp:
-        #         return dp[i]
-        #     dp[i] = max(nums[i] + helper(i-2), helper(i-1))     
-        #     return dp[i]
+        def backtrack(i):
+            if i < 0:
+                return 0
+            if i in dp:
+                return dp[i]
+            dp[i] = max(nums[i] + backtrack(i-2), backtrack(i-1))     
+            return dp[i]
 
         
-        # dp = {}
-        # return helper(len(nums) - 1)
+        dp = {}
+        return backtrack(len(nums) - 1)
 
+        # Soln 2: time: O(n) | space: O(n)
+        
+        def backtrack(i):
+            if i >= len(nums):
+                return 0
+            if i in dp:
+                return dp[i]
 
-        if len(nums) < 2:
+            dp[i] = max(nums[i] + backtrack(i+2), backtrack(i+1))
+            return dp[i]
+
+        dp = {}
+        return backtrack(0)
+
+        # Soln 3: time: O(n) | space: O(1)
+
+        if len(nums) < 3:
             return max(nums)
-
-        first, second = nums[0], nums[1]
+ 
+        first = nums[0]
+        second = nums[1]
 
         for i in range(2, len(nums)):
-
-            temp = second
-            second = max(nums[i] + first, second)    
+            temp = second 
+            second = max(nums[i] + first, second)
             first = max(first, temp)
-        return max(first, second)   
 
-        # first, second = 0, 0
+        return second
 
-        # for i in range(len(nums)):
-        #     print(first, second)
-        #     temp = max(nums[i] + first, second)
-        #     first = second
-        #     second = temp
+        # Soln 4: time: O(n) | space: O(1)
 
-        # return second
-            
+        if len(nums) < 3:
+            return max(nums)
+        
+        first = 0
+        second = 0
+        
+        for i in range(len(nums)):
+            temp = second
+            second = max(nums[i] + first, second)
+            first = temp
+        
+        return second
