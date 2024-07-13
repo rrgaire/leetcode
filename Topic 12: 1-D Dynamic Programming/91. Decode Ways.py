@@ -45,50 +45,62 @@ Constraints:
 s contains only digits and may contain leading zero(s).
 
 """
-
 class Solution:
     def numDecodings(self, s: str) -> int:
+        # Top-Down Approach | time: O(n) | space: O(n)
+        dp = {}
 
-        # time: O(n) | space: O(n)
-        # dp = {len(s): 1}
+        def backtrack(i):
 
-        # def dfs(i):
-        #     if i in dp:
-        #         return dp[i]
-
-        #     if s[i] == '0':
-        #         return 0
+            if i == len(s):
+                return 1
+            if s[i] == '0':
+                return 0
+            if i in dp:
+                return dp[i]
             
-        #     res = dfs(i+1)
+            res = backtrack(i+1)
 
-        #     if i+1 < len(s) and int(s[i:i+2]) < 27:
-        #         res += dfs(i+2)
+            if i + 1 < len(s) and int(s[i:i+2]) < 27:
+                res += backtrack(i+2)
+            
+            dp[i] = res
+            return dp[i]
+        
+        return backtrack(0)
 
-        #     dp[i] = res   
-        #     return res
+        # Bottom-Up Approach | time: O(n) | space: O(1)
+        # Left to Right
 
-        # return dfs(0)
+        left = 1
+        right = 1
 
-        # time: O(n) | space: O(1)
+        for i in range(len(s)):
+            temp = right
+            if s[i] == '0':
+                right = 0
 
-        left, right = 1, 1
-        for i in range(len(s) - 1, -1, -1):
+            if i > 0 and s[i-1] != '0' and int(s[i-1:i+1]) < 27:
+                right += left
+            
+            left = temp
+        
+        return right
+
+        # Right to Left
+        left = 1
+        right = 1
+
+        for i in range(len(s)-1, -1, -1):
             temp = left
-            if s[i] == "0":
+            if s[i] == '0':
                 left = 0
-            if i > 0 and i + 1 < len(s) and int(s[i:i+2]) < 27:
+            
+            if i + 1 < len(s) and s[i] != '0' and int(s[i:i+2]) < 27:
                 left += right
+            
             right = temp
+        
         return left
 
         
-        # left, right = 1, 1
-        # for i in range(len(s)):
-        #     temp = right
-        #     if s[i] == '0':
-        #         right = 0
-
-        #     if i>0 and int(s[i-1])>0 and int(s[i-1:i+1])<=26:
-        #         right+=left
-        #     left = temp
-        # return right
