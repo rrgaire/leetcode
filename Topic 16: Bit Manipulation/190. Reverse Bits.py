@@ -42,9 +42,12 @@ class Solution:
             res += bit << (31 - i)
         return res
 
+        res = 0
+        for i in range(32):
+            bit = n % 2
+            res = res + bit * (2 ** (31 - i))
+            n = n // 2
         
-
-
-
+        return res
 
         
