@@ -1,5 +1,5 @@
 """
-Q1. Find the Power of K-Size Subarrays I
+3254. Find the Power of K-Size Subarrays I
 Solved
 Medium
 4 pt.
