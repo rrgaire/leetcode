@@ -48,3 +48,26 @@ class Solution(object):
                 max_R = max(max_R, height[r])
                 res += max_R - height[r]
         return res
+    
+
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        maxr = [0] * len(height)
+
+        for i in range(len(height) - 1, 0, -1):
+            if height[i] > maxr[i]:
+                maxr[i - 1] = height[i]
+            else:
+                maxr[i - 1] = maxr[i]
+
+        res = 0
+        maxl = height[0]
+
+        for i in range(1, len(height)):
+            amt = (min(maxl, maxr[i]) - height[i])
+            res += amt if amt > 0 else 0
+            maxl = max(maxl, height[i])
+            
+        return res
+
+        
