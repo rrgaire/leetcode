@@ -64,3 +64,33 @@ class Solution:
                 ca = mid + 1
             else:
                 return True
+
+
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+
+        t = 0
+        b = len(matrix) - 1
+
+        while t <= b:
+            mr = t + (b - t) // 2
+            if matrix[mr][0] > target:
+                b = mr - 1
+            elif matrix[mr][0] < target and matrix[mr][-1] < target:
+                t = mr + 1
+            else:
+                break
+        
+        l = 0
+        r = len(matrix[0]) - 1
+
+        while l <= r:
+            mc = l + (r - l) // 2
+            if matrix[mr][mc] > target:
+                r = mc - 1
+            elif matrix[mr][mc] < target:
+                l = mc + 1
+            else:
+                return True
+        
+        return False
