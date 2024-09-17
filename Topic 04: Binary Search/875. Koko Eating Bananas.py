@@ -53,4 +53,29 @@ class Solution:
             
         return soln
 
+
+class Solution:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+
+        l = 1
+        r = max(piles)
+        res = r
+
+        def get_hours(mid):
+            hours = 0
+            for pile in piles:
+                if pile % mid != 0:
+                    hours += 1
+                hours += pile // mid
+            return hours 
+
+        while l <= r:
+            m = l + (r - l) // 2
+            hours = get_hours(m)
+            if hours <= h:
+                r = m - 1
+                res = min(res, m)
+            else:
+                l = m + 1
         
+        return res
