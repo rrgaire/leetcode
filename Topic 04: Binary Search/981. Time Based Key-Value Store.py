@@ -74,6 +74,39 @@ class TimeMap:
         
 
 
+class TimeMap:
+
+    def __init__(self):
+        self.db = {}
+        
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        if not key in self.db:
+            self.db[key] = []
+        self.db[key].append([timestamp, value])
+
+        
+
+    def get(self, key: str, timestamp: int) -> str:
+
+        res = ''
+        if key not in self.db:
+            return res
+
+        l = 0
+        r = len(self.db[key]) - 1
+
+        while l <= r:
+            m = l + (r - l) // 2
+
+            if self.db[key][m][0] <= timestamp:
+                res = self.db[key][m][1]
+                l = m + 1
+            else:
+                r = m - 1
+
+        return res 
+
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
 # obj.set(key,value,timestamp)
