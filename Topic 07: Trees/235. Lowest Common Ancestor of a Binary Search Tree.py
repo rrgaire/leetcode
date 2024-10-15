@@ -44,18 +44,36 @@ p and q will exist in the BST.
 #         self.val = x
 #         self.left = None
 #         self.right = None
- 
+
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        
-        # time: O(logn) | space: O(1)
+
+        p = p.val
+        q = q.val
 
         cur = root
 
         while cur:
-            if cur.val < p.val and cur.val < q.val:
-                cur = cur.right
-            elif cur.val > p.val and cur.val > q.val:
+            if p < cur.val and q < cur.val:
                 cur = cur.left
+            elif p > cur.val and q > cur.val:
+                cur = cur.right
             else:
                 return cur
+        
+
+        def dfs(node):
+            if not node:
+                return
+            
+            if p <= node.val <= q or q <= node.val <= p:
+                return node
+            
+            if p <= node.val and q <= node.val:
+                return dfs(node.left)
+            
+            if p >= node.val and q >= node.val:
+                return dfs(node.right)
+            
+        return dfs(root)
+        
