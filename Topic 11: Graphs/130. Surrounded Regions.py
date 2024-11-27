@@ -95,3 +95,44 @@ class Solution:
                 if board[r][c] == 'T':
                     board[r][c] = 'O'
         
+
+
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        
+        nrows = len(board)
+        ncols = len(board[0])
+
+        used = set()
+
+        def dfs(r, c):
+            if r < 0 or r >= nrows or c < 0 or c >= ncols:
+                return False
+            
+            if (r, c) in used or board[r][c] == 'X':
+                return True
+            
+            used.add((r, c))
+            res = True
+            for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                nr = r + dr
+                nc = c + dc
+
+                res = res and dfs(nr, nc)
+
+            return res
+
+        res = set()
+        for r in range(nrows):
+            for c in range(ncols):
+                used = set()
+                if (r, c) not in res and board[r][c] == 'O' and dfs(r, c):
+                    res.update(used)
+        
+        for r in range(nrows):
+            for c in range(ncols):
+                if (r, c) in res:
+                    board[r][c] = 'X'
