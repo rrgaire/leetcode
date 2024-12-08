@@ -98,3 +98,33 @@ class Solution:
 
         return res
             
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+
+        adj = {i: [] for i in range(numCourses)}
+        for a, b in prerequisites:
+            adj[a].append(b)
+        
+        def dfs(i, res):
+            if i in visited:
+                return visited[i]
+            
+            visited[i] = False
+            for n in adj[i]:
+                if not dfs(n, res):
+                    return visited[i]
+            
+            visited[i] = True
+            res.append(i)
+            return visited[i]
+        
+        res = []
+        visited = {}
+        for i in range(numCourses):
+            if not dfs(i, res):
+                return []
+        
+        return res
+
+        
