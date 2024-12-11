@@ -65,3 +65,30 @@ class Solution:
         for n1, n2 in edges:
             if uf.union(n1, n2):
                 return [n1, n2]
+
+
+
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        
+        n = len(edges)
+        par = [i for i in range(n)]
+
+
+        def findParent(node):
+            y = node
+            while y != par[y]:
+                par[y] = par[par[y]]
+                y = par[y]
+            return y
+        
+        for n1, n2 in edges:
+            p1 = findParent(n1 - 1)
+            p2 = findParent(n2 - 1)
+
+            if p1 == p2:
+                return [n1, n2]
+            
+            else:
+                par[p1] = p2
+        
