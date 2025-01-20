@@ -40,7 +40,7 @@ All the pairs (ui, vi) are unique. (i.e., no multiple edges.)
 
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-
+        # Approach 1: Shortest Path Dijkstra's
         adj = {i: [] for i in range(1, n + 1)}
 
         for u, v, w in times:
@@ -68,6 +68,51 @@ class Solution:
                     heapq.heappush(minheap, [wt + t, nei])
         
         return -1
-            
 
+        # Approach 2: Shortest Path BFS
+        adj = {i: [] for i in range(1, n + 1)}
+
+        for u, v, w in times:
+            adj[u].append([v, w])
+        
+        times = {i: float('inf') for i in range(1, n + 1)}
+
+        q = deque()
+        q.append([k, 0])
+
+        while q:
+            node, time = q.popleft()
+
+            if times[node] <= time:
+                continue
+            
+            times[node] = time
+            for nei, wt in adj[node]:
+                q.append([nei, time + wt])
+        
+        res = max(times.values())
+        return -1 if res == float('inf') else res
+            
+        # Approach 3: Shortest Path DFS
+
+        adj = {i: [] for i in range(1, n + 1)}
+
+        for u, v, w in times:
+            adj[u].append([v, w])
+        
+        times = {i: float('inf') for i in range(1, n + 1)}
+
+        def dfs(i, time):
+            if time >= times[i]:
+                return
+            
+            times[i] = time
+            for nei, wt in adj[i]:
+                dfs(nei, wt + time)
+
+        dfs(k, 0)
+        res = max(times.values())
+        return -1 if res == float('inf') else res
+
+        
         
