@@ -70,3 +70,61 @@ class Solution:
         #     n1, n2 = n2, n1 + n2
 
         # return n2
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+
+        # Recursion
+        def dfs(i):
+            if i == n:
+                return 1
+            if i > n:
+                return 0
+            
+            res = 0
+            for di in [1, 2]:
+                res += dfs(i + di)
+            return res
+        
+        return dfs(0)
+        
+        # Memoiazation
+
+        cache = {}
+        def dfs(i):
+            if i == n:
+                return 1
+            
+            if i > n:
+                return 0
+
+            if i in cache:
+                return cache[i]
+            
+            cache[i] = 0
+            for di in [1, 2]:
+                cache[i] += dfs(i + di)
+            
+            return cache[i]
+        
+        return dfs(0)
+
+        # DP with O(n) memory
+
+        dp = [1] * (n + 1)
+
+        for i in range(n - 2, -1, -1):
+            dp[i] = dp[i + 1] + dp[i + 2]
+        
+        return dp[0]
+
+        # DP with O(1) memory
+
+        a = 1
+        b = 1
+
+        for i in range(n-2, -1, -1):
+            t = b
+            b = a
+            a = t + a
+        return a
