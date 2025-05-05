@@ -36,40 +36,46 @@ Constraints:
 
 class Solution:
     def climbStairs(self, n: int) -> int:
+        # Dynamic Programming Top-Down (memoization)
+        cache = {}
 
-        # # recursive DP | time: O(n) | space: O(n)
-        # dp = {}
-        # def helper(i):
-        #     if i < 0:
-        #         return 0
-        #     if i == 0:
-        #         return 1
-        #     if i in dp:
-        #         return dp[i]
-        #     dp[i] = helper(i-1) + helper(i-2)
-        #     return dp[i]
+        def dfs(i):
+            if i < 0:
+                return 0
+            if i == 0:
+                return 1
+            if i in cache:
+                return cache[i]
+            
+            cache[i] = 0
+            for di in [1, 2]:
+                cache[i] += dfs(i - di)
+            return cache[i]
         
-        # return helper(n)
+        return dfs(n)
 
+        # Dynamic Programming Bottom-Up 
+        dp = [1] * (n + 1)
 
-        # iterative DP | time: O(n) | space: O(n)
-        dp = {}
-        dp[0] = 1
-        dp[1] = 1
-        for i in range(2, n+1):
-            dp[i] = dp[i-1] + dp[i-2]
-        return dp[n]
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 2] + dp[i - 1]
         
-        # # neetcode
-        # if n <= 3:
-        #     return n
-        # n1 = 1
-        # n2 = 2
+        return dp[n]        
 
-        # for i in range(3, n+1):
-        #     n1, n2 = n2, n1 + n2
+        # Dymaic Programming with Constant Memory
 
-        # return n2
+        a = 1
+        b = 1
+
+        for i in range(2, n + 1):
+            t = b
+            b = a + b
+            a = t
+        return b
+
+
+
+        
 
 class Solution:
     def climbStairs(self, n: int) -> int:
