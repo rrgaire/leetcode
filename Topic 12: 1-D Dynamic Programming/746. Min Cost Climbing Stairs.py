@@ -43,6 +43,42 @@ Constraints:
 
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
+
+        cache = {}
+
+        def dfs(i):
+            if i >= len(cost):
+                return 0
+            
+            if i in cache:
+                return cache[i]
+            cache[i] = cost[i] + min(dfs(i + 1), dfs(i + 2))
+            return cache[i]
+
+        return min(dfs(0), dfs(1))
+
+
+        dp = cost.copy()
+
+        dp.append(0)
+
+        for i in range(len(cost) - 2, -1, -1):
+            dp[i] = cost[i] + min(dp[i + 1], dp[i + 2])
+
+        return min(dp[0], dp[1])
+
+        a = cost[-1]
+        b = 0
+
+        for i in range(len(cost) - 2, -1, -1):
+            t = a
+            a = cost[i] + min(a, b)
+            b = t
+        
+        return min(a, b)
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
         # # time: O(n) | space: O(n)
         # dp = {}
         # n = len(cost)
