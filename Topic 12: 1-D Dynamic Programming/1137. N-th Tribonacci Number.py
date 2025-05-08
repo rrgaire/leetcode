@@ -32,7 +32,6 @@ Constraints:
 The answer is guaranteed to fit within a 32-bit integer, ie. answer <= 2^31 - 1.
 
 """
-
 class Solution:
     def tribonacci(self, n: int) -> int:
 
@@ -54,6 +53,18 @@ class Solution:
         
         return dfs(n)
 
+        
+
+        # DP Bottom-UP
+        dp = [1] * (n + 1)
+        dp[0] = 0
+
+        for i in range(3, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3]
+        
+        return dp[n]
+
+
         # DP Bottom-UP (Space Optimized)
         a = 0
         b = 1
@@ -72,11 +83,9 @@ class Solution:
         
         return c
 
-        # DP Bottom-UP
-        dp = [1] * (n + 1)
-        dp[0] = 0
+        dp = [0, 1, 1]
 
         for i in range(3, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3]
+            dp[i % 3] = sum(dp)
         
-        return dp[n]
+        return dp[n % 3]
