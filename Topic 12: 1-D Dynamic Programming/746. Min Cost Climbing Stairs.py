@@ -44,6 +44,7 @@ Constraints:
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
 
+        # Memoization
         cache = {}
 
         def dfs(i):
@@ -57,7 +58,7 @@ class Solution:
 
         return min(dfs(0), dfs(1))
 
-
+        # DP with O(n) memory
         dp = cost.copy()
 
         dp.append(0)
@@ -67,6 +68,7 @@ class Solution:
 
         return min(dp[0], dp[1])
 
+        # DP with O(1) memory
         a = cost[-1]
         b = 0
 
