@@ -37,37 +37,58 @@ Constraints:
 
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        
+        # DP Top-Down Approach
+        if len(nums) == 1:
+            return nums[0]
 
-        # if len(nums) < 3:
-        #     return max(nums)
+        def dfs(i, nums):
 
-        # def helper(i, j):
-        #     if i < j:
-        #         return 0
-        #     if i in dp:
-        #         return dp[i]
-        #     dp[i] = max(nums[i] + helper(i-2, j), helper(i-1, j))     
-        #     return dp[i]
+            if i >= len(nums):
+                return 0
+            
+            if i in cache:
+                return cache[i]
+            
+            cache[i] = max(nums[i] + dfs(i + 2, nums), dfs(i + 1, nums))
+            return cache[i]
 
-        # dp = {}
-        # first = helper(len(nums) - 1, 1)
-        # dp = {}
-        # second = helper(len(nums) - 2, 0)
-        # return max(first, second)
+        cache = {}
+        first = dfs(0, nums[:-1])
+        cache = {}
+        second = dfs(1, nums)
+        return max(first, second)
 
+        # DP Bottom-Up
+        if len(nums) == 1:
+            return nums[0]
+        
+        def dp(arr):
+            a = 0
+            b = 0
 
+            for i in range(len(arr)):
+                temp = b
+                b = max(a + arr[i], b)
+                a = temp
+            return b
+        
+        return max(dp(nums[:-1]), dp(nums[1:]))
+
+        # DP Bottom-Up
+        
         if len(nums) < 4:
             return max(nums)
-
-        def helper(nums):
-            first, second = nums[0], nums[1]
-
-            for i in range(2, len(nums)):
-
-                temp = second
-                second = max(nums[i] + first, second)    
-                first = max(first, temp)
-                print(first, second)
-            return max(first, second)   
         
-        return max(helper(nums[1:]), helper(nums[:-1]))
+        def dp(arr):
+            a = arr[0]
+            b = arr[1]
+
+            for i in range(2, len(arr)):
+                temp = b
+                b = max(a + arr[i], b)
+                a = max(temp, a)
+            return b
+        
+        return max(dp(nums[:-1]), dp(nums[1:]))
+        
