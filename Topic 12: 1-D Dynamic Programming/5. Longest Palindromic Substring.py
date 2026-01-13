@@ -32,9 +32,27 @@ s consist of only digits and English letters.
 """
 
 class Solution:
-    def longestPalindrome(self, s: str) -> str:
 
-        # time: O(n^2) | space: O(1)
+    def longestPalindrome(self, s: str) -> str:
+        # Dynamic Programming: O(n^2) | O(n^2)
+        res = 0
+        l = 0
+        r = 0
+
+        dp = [[False] * len(s) for _ in range(len(s))]
+
+        for i in range(len(s) - 1, -1, -1):
+            for j in range(i, len(s)):
+                if s[i] == s[j] and (j - i <= 2 or dp[i + 1][j - 1]):
+                    if j - i + 1 >= res:
+                        l = i
+                        r = j
+                    res = max(res, j - i + 1)
+                    dp[i][j] = True
+        
+        return s[l:r + 1]
+
+        # Two Pointer: O(n^2) | O(1)
         res = ''
         reslen = 0
 
@@ -58,5 +76,8 @@ class Solution:
                 r += 1
             
         return res
+
+
+
 
         
