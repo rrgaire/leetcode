@@ -35,22 +35,56 @@ s consists of lowercase English letters.
 class Solution:
     def countSubstrings(self, s: str) -> int:
 
+        
+        # Two Pointer: O(n^2) | O(1)
         res = 0
+
+        for i in range(len(s)):
+            l = i
+            r = i
+
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                res += 1
+                l -= 1
+                r += 1
+            
+            l = i
+            r = i + 1
+
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                res += 1
+                l -= 1
+                r += 1
+            
+        return res
+
+
+        # Optimized Two Pointer: O(n^2) | O(1)
+        res = 0
+        def ispalindrome(i, j):
+            res = 0
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                res += 1
+                i -= 1
+                j += 1
+            return res
         
         for i in range(len(s)):
-            l, r = i, i
+            res += ispalindrome(i, i)
+            res += ispalindrome(i, i + 1)
+        
+        return res
 
-            while l >= 0 and r < len(s) and s[l] == s[r]:
-                res += 1
-                l -= 1
-                r += 1
-            
-            l, r = i, i+1
+        # Dynamic Programming: O(n^2) | O(n^2)
+        dp = [[False] * len(s) for _ in range(len(s))]
 
-            while l >= 0 and r < len(s) and s[l] == s[r]:
-                res += 1
-                l -= 1
-                r += 1
-            
+        res = 0
+
+        for i in range(len(s) - 1, -1, -1):
+            for j in range(i, len(s)):
+                if s[i] == s[j] and (j - i <= 2 or dp[i + 1][j - 1]):
+                    res += 1
+                    dp[i][j] = True
+        
         return res
         
