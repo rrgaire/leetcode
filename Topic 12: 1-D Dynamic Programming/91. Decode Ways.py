@@ -47,60 +47,55 @@ s contains only digits and may contain leading zero(s).
 """
 class Solution:
     def numDecodings(self, s: str) -> int:
-        # Top-Down Approach | time: O(n) | space: O(n)
-        dp = {}
+
+        # Memoization: O(n) | O(n)
+        cache = {}
 
         def backtrack(i):
-
-            if i == len(s):
+            if i >= len(s):
                 return 1
+            
             if s[i] == '0':
                 return 0
-            if i in dp:
-                return dp[i]
+            if i in cache:
+                return cache[i]
             
-            res = backtrack(i+1)
+            res = backtrack(i + 1)
 
-            if i + 1 < len(s) and int(s[i:i+2]) < 27:
-                res += backtrack(i+2)
-            
-            dp[i] = res
-            return dp[i]
-        
+            if i + 1 < len(s) and int(s[i: i + 2]) < 27:
+                res += backtrack(i + 2)
+
+            cache[i] = res
+            return cache[i]
+
         return backtrack(0)
 
-        # Bottom-Up Approach | time: O(n) | space: O(1)
-        # Left to Right
-
-        left = 1
-        right = 1
-
-        for i in range(len(s)):
-            temp = right
+        # Dynamic Programming: O(n) | O(n)
+        dp = [0] * (len(s) + 1)
+        dp[-1] = 1
+        for i in range(len(s) - 1, -1, -1):
+            dp[i] = dp[i + 1]
             if s[i] == '0':
-                right = 0
-
-            if i > 0 and s[i-1] != '0' and int(s[i-1:i+1]) < 27:
-                right += left
-            
-            left = temp
+                dp[i] = 0
+            elif i + 2 <= len(s) and int(s[i:i + 2]) <= 26:
+                dp[i] += dp[i + 2]
         
-        return right
+        return dp[0]
 
-        # Right to Left
-        left = 1
-        right = 1
+        # Dynamic Programming: O(n) | O(1)
+        cur = 1
+        next = 1
 
-        for i in range(len(s)-1, -1, -1):
-            temp = left
+        for i in range(len(s) - 1, -1, -1):
+            temp = cur
             if s[i] == '0':
-                left = 0
+                cur = 0
+            elif i + 2 <= len(s) and int(s[i: i + 2]) < 27:
+                cur += next
             
-            if i + 1 < len(s) and s[i] != '0' and int(s[i:i+2]) < 27:
-                left += right
-            
-            right = temp
+            next = temp
+        return cur
+
         
-        return left
 
         
