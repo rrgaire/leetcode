@@ -35,15 +35,26 @@ The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit int
 
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
-        # time: O(n) | space: O(1)
-        res = nums[0]
-        curMax, curMin = 1, 1
 
-        for n in nums:
-            tmp = curMax * n
-            curMax = max(tmp, curMin * n, n)
-            curMin = min(tmp, curMin * n, n)
-            res = max(res, curMax)    
+        # Brute Force: O(n ^ 2) | O(1)
+        res = float('-inf')
+
+        for i in range(len(nums)):
+            res = max(res, nums[i])
+            prod = nums[i]
+            for j in range(i + 1, len(nums)):
+                prod *= nums[j]
+                res = max(res, prod)
         return res
 
-    
+        # Dynamic Programming: O(n ^ 2) | O(1)
+        curMax = 1
+        curMin = 1
+        res = nums[0]
+
+        for i in range(len(nums)):
+            tmp = curMax * nums[i]
+            curMax = max(tmp, curMin * nums[i], nums[i])
+            curMin = min(tmp, curMin * nums[i], nums[i])
+            res = max(res, curMax)
+        return res
